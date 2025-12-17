@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Info - Pembayaran Digital</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .header {
+            background: linear-gradient(to right, #2575fc, #6a11cb);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .payment-container {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 0;
+        }
+        
+        .payment-method {
+            flex: 1;
+            min-width: 300px;
+            padding: 40px 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .payment-method:hover {
+            background-color: rgba(245, 245, 245, 0.8);
+        }
+        
+        .payment-method.dana {
+            border-right: 1px solid #eee;
+        }
+        
+        .method-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .method-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            margin-right: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dana .method-icon {
+            background: linear-gradient(135deg, #00d4ff, #0088ff);
+            color: white;
+        }
+        
+        .gopay .method-icon {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+        }
+        
+        .method-title {
+            font-size: 1.8rem;
+            color: #333;
+            font-weight: 700;
+        }
+        
+        .info-box {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+            border-left: 5px solid #2575fc;
+        }
+        
+        .info-box.gopay {
+            border-left-color: #ee5a52;
+        }
+        
+        .info-title {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .info-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+            word-break: break-all;
+        }
+        
+        .copy-btn {
+            background: linear-gradient(to right, #2575fc, #6a11cb);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .copy-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(37, 117, 252, 0.3);
+        }
+        
+        .copy-btn i {
+            margin-right: 8px;
+        }
+        
+        .note {
+            background-color: #fff8e1;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px;
+            border-left: 5px solid #ffc107;
+            text-align: center;
+        }
+        
+        .note h3 {
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .note h3 i {
+            margin-right: 10px;
+            color: #ff9800;
+        }
+        
+        .note p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+            background-color: #f9f9f9;
+        }
+        
+        .copied-message {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+        
+        .copied-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        @media (max-width: 768px) {
+            .payment-method {
+                min-width: 100%;
+            }
+            
+            .payment-method.dana {
+                border-right: none;
+                border-bottom: 1px solid #eee;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .method-title {
+                font-size: 1.5rem;
+            }
+            
+            .info-value {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-wallet"></i> Pembayaran Digital</h1>
+            <p>Gunakan informasi di bawah ini untuk melakukan pembayaran via Dana atau GoPay</p>
+        </div>
+        
+        <div class="payment-container">
+            <div class="payment-method dana">
+                <div class="method-header">
+                    <div class="method-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="method-title">DANA</div>
+                </div>
+                
+                <div class="info-box">
+                    <div class="info-title">Nomor Telepon</div>
+                    <div class="info-value" id="dana-number">085382281240</div>
+                    <button class="copy-btn" onclick="copyToClipboard('dana-number')">
+                        <i class="fas fa-copy"></i> Salin Nomor DANA
+                    </button>
+                </div>
+                
+                <div class="info-box">
+                    <div class="info-title">Atas Nama</div>
+                    <div class="info-value">HARTANTI</div>
+                </div>
+            </div>
+            
+            <div class="payment-method gopay">
+                <div class="method-header">
+                    <div class="method-icon">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <div class="method-title">GoPay</div>
+                </div>
+                
+                <div class="info-box">
+                    <div class="info-title">Nomor Telepon</div>
+                    <div class="info-value" id="gopay-number">083157941040</div>
+                    <button class="copy-btn" onclick="copyToClipboard('gopay-number')">
+                        <i class="fas fa-copy"></i> Salin Nomor GoPay
+                    </button>
+                </div>
+                
+                <div class="info-box">
+                    <div class="info-title">Atas Nama</div>
+                    <div class="info-value">CAHYO</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="note">
+            <h3><i class="fas fa-info-circle"></i> Petunjuk Pembayaran</h3>
+            <p>1. Buka aplikasi DANA atau GoPay di smartphone Anda<br>
+               2. Pilih menu "Kirim" atau "Transfer"<br>
+               3. Masukkan nomor yang tertera di atas<br>
+               4. Pastikan nama penerima sudah sesuai sebelum melanjutkan<br>
+               5. Masukkan jumlah pembayaran dan konfirmasi</p>
+        </div>
+        
+        <div class="footer">
+            <p>© 2023 Payment Info. Pastikan Anda membayar ke nomor dan nama yang tertera di atas.</p>
+        </div>
+    </div>
+    
+    <div class="copied-message" id="copiedMessage">
+        <i class="fas fa-check-circle"></i> Nomor berhasil disalin!
+    </div>
+
+    <script>
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.innerText;
+            
+            // Create a temporary textarea to copy text
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textArea);
+            
+            // Show copied message
+            const message = document.getElementById("copiedMessage");
+            message.classList.add("show");
+            
+            // Hide message after 3 seconds
+            setTimeout(() => {
+                message.classList.remove("show");
+            }, 3000);
+        }
+        
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const copyButtons = document.querySelectorAll('.copy-btn');
+            
+            copyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Add a temporary animation effect
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 200);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
